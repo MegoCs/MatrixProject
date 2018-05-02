@@ -1,0 +1,10 @@
+D:\MatrixProject\ServerProject\bin\Debug\netcoreapp2.0\ServerProject.deps.json
+D:\MatrixProject\ServerProject\bin\Debug\netcoreapp2.0\ServerProject.runtimeconfig.json
+D:\MatrixProject\ServerProject\bin\Debug\netcoreapp2.0\ServerProject.runtimeconfig.dev.json
+D:\MatrixProject\ServerProject\bin\Debug\netcoreapp2.0\ServerProject.dll
+D:\MatrixProject\ServerProject\bin\Debug\netcoreapp2.0\ServerProject.pdb
+D:\MatrixProject\ServerProject\obj\Debug\netcoreapp2.0\ServerProject.csproj.CoreCompileInputs.cache
+D:\MatrixProject\ServerProject\obj\Debug\netcoreapp2.0\ServerProject.AssemblyInfoInputs.cache
+D:\MatrixProject\ServerProject\obj\Debug\netcoreapp2.0\ServerProject.AssemblyInfo.cs
+D:\MatrixProject\ServerProject\obj\Debug\netcoreapp2.0\ServerProject.dll
+D:\MatrixProject\ServerProject\obj\Debug\netcoreapp2.0\ServerProject.pdb
