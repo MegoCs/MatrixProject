@@ -16,7 +16,7 @@ namespace ServerProject
             clientName = clientSocket.RemoteEndPoint?.ToString() ?? "unknown-client";
         }
 
-        public override void RunThread()
+        public override void Execute()
         {
             byte[] buffer = new byte[1024];
             StringBuilder messageBuffer = new StringBuilder();

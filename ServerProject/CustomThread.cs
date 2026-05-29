@@ -8,7 +8,7 @@ public abstract class CustomThread
 
     protected CustomThread()
     {
-        _thread = new Thread(new ThreadStart(this.RunThread));
+        _thread = new Thread(new ThreadStart(this.Execute));
     }
 
     // Thread methods / properties
@@ -17,6 +17,6 @@ public abstract class CustomThread
     public bool IsAlive => _thread.IsAlive;
 
     // Override in base class
-    public abstract void RunThread();
+    public abstract void Execute();
 }
 }

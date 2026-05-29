@@ -99,14 +99,14 @@ namespace ClientProject
             {
                 while (true)
                 {
-                    int recMessageBytesLeng = clientSocketToServer.Receive(recMessageBytes);
-                    if (recMessageBytesLeng == 0)
+                    int recMessageBytesLength = clientSocketToServer.Receive(recMessageBytes);
+                    if (recMessageBytesLength == 0)
                     {
                         AppLogger.Warning("receive", "Server closed the connection.");
                         break;
                     }
 
-                    messageBuffer.Append(Encoding.UTF8.GetString(recMessageBytes, 0, recMessageBytesLeng));
+                    messageBuffer.Append(Encoding.UTF8.GetString(recMessageBytes, 0, recMessageBytesLength));
 
                     string bufferedText = messageBuffer.ToString();
                     string[] messages = bufferedText.Split('\n');
