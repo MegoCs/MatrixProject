@@ -76,8 +76,8 @@ namespace ClientProject
                 CloseConnection();
                 if (listenerThread?.IsAlive == true)
                 {
-                    bool listenerStopped = listenerThread.Join(ServerResponseWaitTimeout);
-                    if (!listenerStopped)
+                    bool listenerJoined = listenerThread.Join(ServerResponseWaitTimeout);
+                    if (!listenerJoined)
                     {
                         AppLogger.Warning("shutdown", $"Listener thread did not stop within {ServerResponseWaitTimeout.TotalSeconds} seconds.");
                     }
