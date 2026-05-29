@@ -9,9 +9,9 @@ namespace ServerProject
         private const string WelcomeMessage = "Hello from the server. Send messages or type 'exit' to disconnect.";
         private readonly Socket clientSocket;
 
-        public ClientCommunication(Socket clintSocket)
+        public ClientCommunication(Socket clientSocket)
         {
-            clientSocket = clintSocket;
+            this.clientSocket = clientSocket;
         }
 
         public override void RunThread()
