@@ -1,0 +1,5 @@
+/tmp/workspace/MegoCs/MatrixProject/ServerProject/obj/Debug/net8.0/ServerProject.GeneratedMSBuildEditorConfig.editorconfig
+/tmp/workspace/MegoCs/MatrixProject/ServerProject/obj/Debug/net8.0/ServerProject.AssemblyInfoInputs.cache
+/tmp/workspace/MegoCs/MatrixProject/ServerProject/obj/Debug/net8.0/ServerProject.AssemblyInfo.cs
+/tmp/workspace/MegoCs/MatrixProject/ServerProject/obj/Debug/net8.0/ServerProject.csproj.CoreCompileInputs.cache
+/tmp/workspace/MegoCs/MatrixProject/ServerProject/obj/Debug/net8.0/ServerProject.sourcelink.json

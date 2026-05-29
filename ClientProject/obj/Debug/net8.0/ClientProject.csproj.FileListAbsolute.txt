@@ -1,0 +1,15 @@
+/tmp/workspace/MegoCs/MatrixProject/ClientProject/bin/Debug/net8.0/ClientProject
+/tmp/workspace/MegoCs/MatrixProject/ClientProject/bin/Debug/net8.0/ClientProject.deps.json
+/tmp/workspace/MegoCs/MatrixProject/ClientProject/bin/Debug/net8.0/ClientProject.runtimeconfig.json
+/tmp/workspace/MegoCs/MatrixProject/ClientProject/bin/Debug/net8.0/ClientProject.dll
+/tmp/workspace/MegoCs/MatrixProject/ClientProject/bin/Debug/net8.0/ClientProject.pdb
+/tmp/workspace/MegoCs/MatrixProject/ClientProject/obj/Debug/net8.0/ClientProject.GeneratedMSBuildEditorConfig.editorconfig
+/tmp/workspace/MegoCs/MatrixProject/ClientProject/obj/Debug/net8.0/ClientProject.AssemblyInfoInputs.cache
+/tmp/workspace/MegoCs/MatrixProject/ClientProject/obj/Debug/net8.0/ClientProject.AssemblyInfo.cs
+/tmp/workspace/MegoCs/MatrixProject/ClientProject/obj/Debug/net8.0/ClientProject.csproj.CoreCompileInputs.cache
+/tmp/workspace/MegoCs/MatrixProject/ClientProject/obj/Debug/net8.0/ClientProject.sourcelink.json
+/tmp/workspace/MegoCs/MatrixProject/ClientProject/obj/Debug/net8.0/ClientProject.dll
+/tmp/workspace/MegoCs/MatrixProject/ClientProject/obj/Debug/net8.0/refint/ClientProject.dll
+/tmp/workspace/MegoCs/MatrixProject/ClientProject/obj/Debug/net8.0/ClientProject.pdb
+/tmp/workspace/MegoCs/MatrixProject/ClientProject/obj/Debug/net8.0/ClientProject.genruntimeconfig.cache
+/tmp/workspace/MegoCs/MatrixProject/ClientProject/obj/Debug/net8.0/ref/ClientProject.dll
