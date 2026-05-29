@@ -59,7 +59,10 @@ namespace ServerProject
                     }
 
                     messageBuffer.Clear();
-                    messageBuffer.Append(messages[^1]);
+                    if (!string.IsNullOrEmpty(messages[^1]))
+                    {
+                        messageBuffer.Append(messages[^1]);
+                    }
                 }
             }
             catch (SocketException ex)

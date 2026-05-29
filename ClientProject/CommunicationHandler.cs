@@ -9,6 +9,7 @@ namespace ClientProject
     {
         public const int DefaultPort = 2510;
         public const string DefaultServerAddress = "127.0.0.1";
+        private static readonly TimeSpan ServerResponseWaitTimeout = TimeSpan.FromSeconds(2);
 
         private readonly string remoteServerAddress;
         private readonly int communicationPort;
@@ -62,7 +63,7 @@ namespace ClientProject
                     }
                 }
 
-                listenerThread.Join(TimeSpan.FromSeconds(2));
+                listenerThread.Join(ServerResponseWaitTimeout);
             }
             catch (SocketException ex)
             {
@@ -114,7 +115,10 @@ namespace ClientProject
                     }
 
                     messageBuffer.Clear();
-                    messageBuffer.Append(messages[^1]);
+                    if (!string.IsNullOrEmpty(messages[^1]))
+                    {
+                        messageBuffer.Append(messages[^1]);
+                    }
                 }
             }
             catch (SocketException ex)
