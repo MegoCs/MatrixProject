@@ -1,42 +1,150 @@
 using System;
-using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
-namespace ClientProject{
-    public class CommunicationHandler{
-        IPHostEntry ipHostInfo ;  
-        IPAddress ipAddress ;  
-        IPEndPoint remoteEP ;
-        Socket clientSocketToServer;
-        int COMMUNICATIONPORT=2510;
-        string REMOTESERVERIP="fe80::7cea:448b:8c61:52a9%8";
-        public CommunicationHandler(){
-            // Establish the remote endpoint for the socket.  
-            ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());  
-            ipAddress = IPAddress.Parse(REMOTESERVERIP); 
-            remoteEP = new IPEndPoint(ipAddress,COMMUNICATIONPORT);  
+namespace ClientProject
+{
+    public class CommunicationHandler
+    {
+        public const int DefaultPort = 2510;
+        public const string DefaultServerAddress = "127.0.0.1";
 
-            // Create a TCP/IP  socket.  
-            clientSocketToServer = new Socket(ipAddress.AddressFamily,   
-            SocketType.Stream, ProtocolType.Tcp );    
+        private readonly string remoteServerAddress;
+        private readonly int communicationPort;
+        private Socket? clientSocketToServer;
+
+        public CommunicationHandler(string serverAddress, int port)
+        {
+            remoteServerAddress = string.IsNullOrWhiteSpace(serverAddress) ? DefaultServerAddress : serverAddress;
+            communicationPort = port;
         }
-        public void StartCommunication(){
+
+        public void StartCommunication()
+        {
             try
             {
-                clientSocketToServer.Connect(remoteEP);  
-                Console.WriteLine("Socket connected to {0}",clientSocketToServer.RemoteEndPoint.ToString());      
-                // Start The Real Opreation With the server.
+                clientSocketToServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                AppLogger.Info("connect", $"Connecting to {remoteServerAddress}:{communicationPort}");
+                clientSocketToServer.Connect(remoteServerAddress, communicationPort);
+                AppLogger.Info("connect", $"Connected to {clientSocketToServer.RemoteEndPoint}");
+
+                Thread listenerThread = new Thread(ListenForMessages)
+                {
+                    IsBackground = true
+                };
+                listenerThread.Start();
+
+                AppLogger.Info("input", "Type a message and press Enter. Type 'exit' to close the client.");
+
                 while (true)
                 {
-                    byte[] recMessageBytes = new byte[1024]; 
-                    int recMessageBytesLeng= clientSocketToServer.Receive(recMessageBytes);
-                    Console.WriteLine(Encoding.ASCII.GetString(recMessageBytes,0,recMessageBytesLeng));       
+                    string? message = Console.ReadLine();
+                    if (message is null)
+                    {
+                        break;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(message))
+                    {
+                        AppLogger.Warning("input", "Ignoring empty message.");
+                        continue;
+                    }
+
+                    SendMessage(message);
+
+                    if (string.Equals(message, "exit", StringComparison.OrdinalIgnoreCase))
+                    {
+                        AppLogger.Info("shutdown", "Exit command sent. Closing client.");
+                        break;
+                    }
                 }
             }
-            catch (Exception)
+            catch (SocketException ex)
             {
-                
+                AppLogger.Error("connect", $"Socket error while connecting to the server: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                AppLogger.Error("client", $"Unexpected client error: {ex.Message}");
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
+
+        private void ListenForMessages()
+        {
+            if (clientSocketToServer is null)
+            {
+                return;
+            }
+
+            byte[] recMessageBytes = new byte[1024];
+
+            try
+            {
+                while (true)
+                {
+                    int recMessageBytesLeng = clientSocketToServer.Receive(recMessageBytes);
+                    if (recMessageBytesLeng == 0)
+                    {
+                        AppLogger.Warning("receive", "Server closed the connection.");
+                        break;
+                    }
+
+                    string receivedMessage = Encoding.UTF8.GetString(recMessageBytes, 0, recMessageBytesLeng);
+                    AppLogger.Info("receive", receivedMessage);
+                }
+            }
+            catch (SocketException ex)
+            {
+                AppLogger.Error("receive", $"Socket error while receiving data: {ex.Message}");
+            }
+            catch (ObjectDisposedException)
+            {
+                AppLogger.Warning("receive", "Receive loop stopped because the socket was disposed.");
+            }
+        }
+
+        private void SendMessage(string message)
+        {
+            if (clientSocketToServer is null)
+            {
+                AppLogger.Warning("send", "Cannot send message because the socket is not connected.");
+                return;
+            }
+
+            byte[] messageBytes = Encoding.UTF8.GetBytes(message);
+            clientSocketToServer.Send(messageBytes);
+            AppLogger.Info("send", $"Sent message: {message}");
+        }
+
+        private void CloseConnection()
+        {
+            if (clientSocketToServer is null)
+            {
+                return;
+            }
+
+            try
+            {
+                if (clientSocketToServer.Connected)
+                {
+                    clientSocketToServer.Shutdown(SocketShutdown.Both);
+                }
+            }
+            catch (SocketException ex)
+            {
+                AppLogger.Warning("shutdown", $"Socket shutdown warning: {ex.Message}");
+            }
+            finally
+            {
+                clientSocketToServer.Close();
+                clientSocketToServer.Dispose();
+                clientSocketToServer = null;
+                AppLogger.Info("shutdown", "Client connection closed.");
             }
         }
     }

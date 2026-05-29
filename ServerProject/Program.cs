@@ -6,10 +6,17 @@ namespace ServerProject
     {
         static void Main(string[] args)
         {
-            int PORTNUMBER=2510;
-             Server _mainServer = new Server(PORTNUMBER);
-             _mainServer.StartServer();
-             
+            int portNumber = 2510;
+            if (args.Length > 0 && !int.TryParse(args[0], out portNumber))
+            {
+                AppLogger.Warning("startup", $"Invalid port '{args[0]}'. Falling back to 2510.");
+                portNumber = 2510;
+            }
+
+            AppLogger.Info("startup", $"Server starting on port {portNumber}");
+
+            Server mainServer = new Server(portNumber);
+            mainServer.StartServer();
         }
     }
 }

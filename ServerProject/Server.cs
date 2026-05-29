@@ -1,41 +1,36 @@
 using System;
-using System.Net;
 using System.Net.Sockets;
 
 namespace ServerProject
 {
     public class Server
     {
-        IPHostEntry ipHostInfo ;  
-        IPAddress ipAddress ;  
-        IPEndPoint localEndPoint ;
-        int portNum ;
-        Socket sSocket;
-        public void StartServer() {
-            Console.WriteLine("Server Thread Started @Port : " + portNum);
-            sSocket.Bind(localEndPoint);  
-            Console.WriteLine(localEndPoint.ToString());
-            sSocket.Listen(1);
+        private readonly IPEndPoint localEndPoint;
+        private readonly int portNum;
+        private readonly Socket sSocket;
+
+        public void StartServer()
+        {
+            AppLogger.Info("startup", $"Binding server socket on {localEndPoint}");
+            sSocket.Bind(localEndPoint);
+            sSocket.Listen(10);
+            AppLogger.Info("startup", $"Server listening on {localEndPoint}");
+
             while (true)
             {
-                Socket _clientSocket=sSocket.Accept();
-                ClientCommunication handler = new ClientCommunication(_clientSocket);
-                handler.RunThread();
-            }          
+                Socket clientSocket = sSocket.Accept();
+                AppLogger.Info("accept", $"Accepted client {clientSocket.RemoteEndPoint}");
+                ClientCommunication handler = new ClientCommunication(clientSocket);
+                handler.Start();
+            }
         }
-        public Server(int _port){
 
-            portNum=_port;
-            // Establish the local endpoint for the socket.  
-            // Dns.GetHostName returns the name of the   
-            // host running the application.     
-            ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());  
-            ipAddress = ipHostInfo.AddressList[0];  
-            localEndPoint = new IPEndPoint(ipAddress, portNum);  
+        public Server(int port)
+        {
+            portNum = port;
+            localEndPoint = new IPEndPoint(System.Net.IPAddress.Any, portNum);
 
-            // Create a TCP/IP socket.  
-         sSocket = new Socket(ipAddress.AddressFamily,  
-            SocketType.Stream, ProtocolType.Tcp );  
+            sSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
     }
 }
