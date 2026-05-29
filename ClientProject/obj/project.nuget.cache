@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "AL8M77c/VV0=",
+  "dgSpecHash": "wdEX0sAYMJ8=",
   "success": true,
   "projectFilePath": "/tmp/workspace/MegoCs/MatrixProject/ClientProject/ClientProject.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/tmp/codeql-scratch-7c184ddfaf07e664/dbs/csharp/working/packages/microsoft.netcore.app.ref/8.0.27/microsoft.netcore.app.ref.8.0.27.nupkg.sha512",
+    "/tmp/codeql-scratch-7c184ddfaf07e664/dbs/csharp/working/packages/microsoft.aspnetcore.app.ref/8.0.27/microsoft.aspnetcore.app.ref.8.0.27.nupkg.sha512",
+    "/tmp/codeql-scratch-7c184ddfaf07e664/dbs/csharp/working/packages/microsoft.netcore.app.host.linux-x64/8.0.27/microsoft.netcore.app.host.linux-x64.8.0.27.nupkg.sha512"
+  ],
   "logs": []
 }
