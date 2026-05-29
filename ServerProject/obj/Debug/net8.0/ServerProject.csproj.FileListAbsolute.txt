@@ -3,3 +3,13 @@
 /tmp/workspace/MegoCs/MatrixProject/ServerProject/obj/Debug/net8.0/ServerProject.AssemblyInfo.cs
 /tmp/workspace/MegoCs/MatrixProject/ServerProject/obj/Debug/net8.0/ServerProject.csproj.CoreCompileInputs.cache
 /tmp/workspace/MegoCs/MatrixProject/ServerProject/obj/Debug/net8.0/ServerProject.sourcelink.json
+/tmp/workspace/MegoCs/MatrixProject/ServerProject/bin/Debug/net8.0/ServerProject
+/tmp/workspace/MegoCs/MatrixProject/ServerProject/bin/Debug/net8.0/ServerProject.deps.json
+/tmp/workspace/MegoCs/MatrixProject/ServerProject/bin/Debug/net8.0/ServerProject.runtimeconfig.json
+/tmp/workspace/MegoCs/MatrixProject/ServerProject/bin/Debug/net8.0/ServerProject.dll
+/tmp/workspace/MegoCs/MatrixProject/ServerProject/bin/Debug/net8.0/ServerProject.pdb
+/tmp/workspace/MegoCs/MatrixProject/ServerProject/obj/Debug/net8.0/ServerProject.dll
+/tmp/workspace/MegoCs/MatrixProject/ServerProject/obj/Debug/net8.0/refint/ServerProject.dll
+/tmp/workspace/MegoCs/MatrixProject/ServerProject/obj/Debug/net8.0/ServerProject.pdb
+/tmp/workspace/MegoCs/MatrixProject/ServerProject/obj/Debug/net8.0/ServerProject.genruntimeconfig.cache
+/tmp/workspace/MegoCs/MatrixProject/ServerProject/obj/Debug/net8.0/ref/ServerProject.dll

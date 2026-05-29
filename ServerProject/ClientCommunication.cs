@@ -1,6 +1,6 @@
-
 using System;
 using System.Net.Sockets;
+using System.Text;
 using System.Text;
 
 namespace ServerProject
@@ -19,6 +19,7 @@ namespace ServerProject
         {
             string clientName = clientSocket.RemoteEndPoint?.ToString() ?? "unknown-client";
             byte[] buffer = new byte[1024];
+            StringBuilder messageBuffer = new StringBuilder();
 
             try
             {
@@ -34,17 +35,32 @@ namespace ServerProject
                         break;
                     }
 
-                    string clientMessage = Encoding.UTF8.GetString(buffer, 0, receivedBytesLength);
-                    AppLogger.Info("receive", $"Received from {clientName}: {clientMessage}");
+                    messageBuffer.Append(Encoding.UTF8.GetString(buffer, 0, receivedBytesLength));
+                    string bufferedText = messageBuffer.ToString();
+                    string[] messages = bufferedText.Split('\n');
 
-                    if (string.Equals(clientMessage, "exit", StringComparison.OrdinalIgnoreCase))
+                    for (int i = 0; i < messages.Length - 1; i++)
                     {
-                        SendMessage("Goodbye from server.");
-                        AppLogger.Info("client-session", $"Closing session for {clientName} on exit request.");
-                        break;
+                        string clientMessage = messages[i].Trim();
+                        if (string.IsNullOrEmpty(clientMessage))
+                        {
+                            continue;
+                        }
+
+                        AppLogger.Info("receive", $"Received from {clientName}: {clientMessage}");
+
+                        if (string.Equals(clientMessage, "exit", StringComparison.OrdinalIgnoreCase))
+                        {
+                            SendMessage("Goodbye from server.");
+                            AppLogger.Info("client-session", $"Closing session for {clientName} on exit request.");
+                            return;
+                        }
+
+                        SendMessage($"Server received: {clientMessage}");
                     }
 
-                    SendMessage($"Server received: {clientMessage}");
+                    messageBuffer.Clear();
+                    messageBuffer.Append(messages[^1]);
                 }
             }
             catch (SocketException ex)
@@ -79,7 +95,7 @@ namespace ServerProject
 
         private void SendMessage(string message)
         {
-            clientSocket.Send(Encoding.UTF8.GetBytes(message));
+            clientSocket.Send(Encoding.UTF8.GetBytes($"{message}\n"));
             AppLogger.Info("send", $"Sent to {clientSocket.RemoteEndPoint}: {message}");
         }
     }

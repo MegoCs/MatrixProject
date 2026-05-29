@@ -22,6 +22,8 @@ namespace ClientProject
 
         public void StartCommunication()
         {
+            Thread? listenerThread = null;
+
             try
             {
                 clientSocketToServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -29,7 +31,7 @@ namespace ClientProject
                 clientSocketToServer.Connect(remoteServerAddress, communicationPort);
                 AppLogger.Info("connect", $"Connected to {clientSocketToServer.RemoteEndPoint}");
 
-                Thread listenerThread = new Thread(ListenForMessages)
+                listenerThread = new Thread(ListenForMessages)
                 {
                     IsBackground = true
                 };
@@ -59,6 +61,8 @@ namespace ClientProject
                         break;
                     }
                 }
+
+                listenerThread.Join(TimeSpan.FromSeconds(2));
             }
             catch (SocketException ex)
             {
@@ -82,6 +86,7 @@ namespace ClientProject
             }
 
             byte[] recMessageBytes = new byte[1024];
+            StringBuilder messageBuffer = new StringBuilder();
 
             try
             {
@@ -94,8 +99,22 @@ namespace ClientProject
                         break;
                     }
 
-                    string receivedMessage = Encoding.UTF8.GetString(recMessageBytes, 0, recMessageBytesLeng);
-                    AppLogger.Info("receive", receivedMessage);
+                    messageBuffer.Append(Encoding.UTF8.GetString(recMessageBytes, 0, recMessageBytesLeng));
+
+                    string bufferedText = messageBuffer.ToString();
+                    string[] messages = bufferedText.Split('\n');
+
+                    for (int i = 0; i < messages.Length - 1; i++)
+                    {
+                        string receivedMessage = messages[i].Trim();
+                        if (!string.IsNullOrEmpty(receivedMessage))
+                        {
+                            AppLogger.Info("receive", receivedMessage);
+                        }
+                    }
+
+                    messageBuffer.Clear();
+                    messageBuffer.Append(messages[^1]);
                 }
             }
             catch (SocketException ex)
@@ -116,7 +135,7 @@ namespace ClientProject
                 return;
             }
 
-            byte[] messageBytes = Encoding.UTF8.GetBytes(message);
+            byte[] messageBytes = Encoding.UTF8.GetBytes($"{message}\n");
             clientSocketToServer.Send(messageBytes);
             AppLogger.Info("send", $"Sent message: {message}");
         }
