@@ -8,15 +8,16 @@ namespace ServerProject
     {
         private const string WelcomeMessage = "Hello from the server. Send messages or type 'exit' to disconnect.";
         private readonly Socket clientSocket;
+        private readonly string clientName;
 
         public ClientCommunication(Socket clientSocket)
         {
             this.clientSocket = clientSocket;
+            clientName = clientSocket.RemoteEndPoint?.ToString() ?? "unknown-client";
         }
 
         public override void RunThread()
         {
-            string clientName = clientSocket.RemoteEndPoint?.ToString() ?? "unknown-client";
             byte[] buffer = new byte[1024];
             StringBuilder messageBuffer = new StringBuilder();
 
@@ -98,7 +99,7 @@ namespace ServerProject
         private void SendMessage(string message)
         {
             clientSocket.Send(Encoding.UTF8.GetBytes($"{message}\n"));
-            AppLogger.Info("send", $"Sent to {clientSocket.RemoteEndPoint}: {message}");
+            AppLogger.Info("send", $"Sent to {clientName}: {message}");
         }
     }
 }

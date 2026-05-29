@@ -2,8 +2,8 @@
 
 MatrixProject is a small .NET client/server socket sample with two console applications:
 
-- `/tmp/workspace/MegoCs/MatrixProject/ServerProject` hosts a TCP server.
-- `/tmp/workspace/MegoCs/MatrixProject/ClientProject` connects to the server and exchanges console messages.
+- `./ServerProject` hosts a TCP server.
+- `./ClientProject` connects to the server and exchanges console messages.
 
 ## What the project does
 
@@ -28,7 +28,7 @@ MatrixProject is a small .NET client/server socket sample with two console appli
 ## Run the server
 
 ```bash
-dotnet run --project /tmp/workspace/MegoCs/MatrixProject/ServerProject/ServerProject.csproj -- 2510
+dotnet run --project ./ServerProject/ServerProject.csproj -- 2510
 ```
 
 The port argument is optional. If omitted, the server uses `2510`.
@@ -36,7 +36,7 @@ The port argument is optional. If omitted, the server uses `2510`.
 ## Run the client
 
 ```bash
-dotnet run --project /tmp/workspace/MegoCs/MatrixProject/ClientProject/ClientProject.csproj -- 127.0.0.1 2510
+dotnet run --project ./ClientProject/ClientProject.csproj -- 127.0.0.1 2510
 ```
 
 Arguments are optional:

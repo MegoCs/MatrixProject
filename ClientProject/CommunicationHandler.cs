@@ -62,8 +62,6 @@ namespace ClientProject
                         break;
                     }
                 }
-
-                listenerThread.Join(ServerResponseWaitTimeout);
             }
             catch (SocketException ex)
             {
@@ -76,6 +74,10 @@ namespace ClientProject
             finally
             {
                 CloseConnection();
+                if (listenerThread?.IsAlive == true)
+                {
+                    listenerThread.Join(ServerResponseWaitTimeout);
+                }
             }
         }
 
